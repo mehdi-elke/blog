@@ -1,0 +1,14 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory: #FCFAF8;
+  --color-noir: #1A1A1A;
+  --color-cobalt: #0047AB;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-ivory text-noir antialiased font-sans selection:bg-cobalt/20 selection:text-cobalt;
+  }
+}

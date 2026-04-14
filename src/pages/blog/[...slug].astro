@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+	const blogEntries = await getCollection('blog');
+	return blogEntries.map(entry => ({
+		params: { slug: entry.slug }, props: { entry },
+	}));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+
+function formatDate(date: Date) {
+	return date.toLocaleDateString('fr-FR', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+	});
+}
+---
+
+<BaseLayout title={entry.data.title} description={entry.data.description}>
+	<article class="prose prose-slate max-w-none">
+		<header class="mb-12">
+			<time class="text-sm font-mono text-slate-400 block mb-2">
+				{formatDate(entry.data.pubDate)}
+			</time>
+			<h1 class="text-4xl font-extrabold tracking-tighter uppercase mb-6">
+				{entry.data.title}
+			</h1>
+			<p class="text-xl text-slate-500 italic border-l-4 border-cobalt pl-4 py-2">
+				{entry.data.description}
+			</p>
+		</header>
+		
+		<div class="mt-8 text-noir leading-relaxed space-y-6 
+			prose-h2:text-2xl prose-h2:font-bold prose-h2:tracking-tight prose-h2:border-b prose-h2:border-slate-100 prose-h2:pb-2 prose-h2:mt-12
+			prose-p:text-lg
+			prose-blockquote:border-l-cobalt prose-blockquote:bg-slate-50 prose-blockquote:py-1 prose-blockquote:px-4 prose-blockquote:italic
+			prose-code:bg-slate-100 prose-code:px-1 prose-code:rounded prose-pre:bg-[#1A1A1A] prose-pre:text-ivory prose-pre:p-6 prose-pre:rounded-none border border-slate-200">
+			<Content />
+		</div>
+
+		<footer class="mt-20 pt-8 border-t border-slate-100">
+			<a href={`${import.meta.env.BASE_URL}/`} class="text-cobalt hover:underline font-medium">
+				← Retour au blog
+			</a>
+		</footer>
+	</article>
+</BaseLayout>

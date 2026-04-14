@@ -1,0 +1,44 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Ingénierie de la fiabilité IA & RAG." } = Astro.currentProps;
+const base = import.meta.env.BASE_URL;
+---
+
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href={`${base}/favicon.svg`} />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} | FAILSAFE</title>
+		<meta name="description" content={description} />
+	</head>
+	<body class="bg-ivory text-noir antialiased font-sans">
+		<header class="max-w-screen-md mx-auto px-6 py-12">
+			<nav class="flex justify-between items-baseline border-b border-slate-200 pb-8">
+				<a href={`${base}/`} class="text-2xl font-bold tracking-tighter hover:text-cobalt transition-colors uppercase">
+					FAILSAFE
+				</a>
+				<div class="space-x-8 text-sm font-medium">
+					<a href={`${base}/`} class="hover:text-cobalt transition-colors">Blog</a>
+					<a href={`${base}/about`} class="hover:text-cobalt transition-colors">À propos</a>
+				</div>
+			</nav>
+		</header>
+		
+		<main class="max-w-screen-md mx-auto px-6 pb-20">
+			<slot />
+		</main>
+
+		<footer class="max-w-screen-md mx-auto px-6 py-12 border-t border-slate-200 text-sm text-slate-500">
+			<p>© 2026 FAILSAFE — Par Mehdi-elke</p>
+		</footer>
+	</body>
+</html>
