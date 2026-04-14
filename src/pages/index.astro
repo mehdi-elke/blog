@@ -37,7 +37,7 @@ function formatDate(date: Date) {
 			{posts.length > 0 ? (
 				posts.map((post) => (
 					<li class="group">
-						<a href={`${base}/blog/${post.slug}`} class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8">
+						<a href={`${base}/blog/${post.id}`} class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-8">
 							<time class="text-xs font-mono text-slate-400 shrink-0">
 								{formatDate(post.data.pubDate)}
 							</time>
