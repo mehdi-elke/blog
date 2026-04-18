@@ -7,8 +7,18 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://mehdi-elke.github.io',
   base: '/blog',
+  i18n: {
+    defaultLocale: 'fr',
+    locales: ['fr', 'en'],
+    routing: {
+      prefixDefaultLocale: false
+    }
+  },
   vite: {
     plugins: [tailwindcss()]
   },
-  integrations: [mdx(), sitemap()]
+  integrations: [
+    mdx(),
+    sitemap()
+  ]
 });

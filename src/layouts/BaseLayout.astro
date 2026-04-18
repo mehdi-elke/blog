@@ -1,6 +1,8 @@
 ---
 import '../styles/global.css';
 import BaseHead from '../components/BaseHead.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
 
 interface Props {
 	title: string;
@@ -10,22 +12,38 @@ interface Props {
 
 const { title, description = "Ingénierie de la fiabilité IA & RAG.", image } = Astro.props;
 const base = import.meta.env.BASE_URL;
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <!doctype html>
-<html lang="fr" class="scroll-smooth">
+<html lang={lang} class="scroll-smooth">
 	<head>
 		<BaseHead title={title} description={description} image={image} />
 	</head>
 	<body class="bg-ivory text-noir antialiased font-sans flex flex-col min-h-screen">
+		<div id="progress-bar" class="fixed top-0 left-0 h-1 bg-cobalt z-50 transition-all duration-150 w-0"></div>
+		
 		<header class="max-w-screen-md mx-auto w-full px-6 py-12">
-			<nav class="flex justify-between items-baseline border-b border-slate-200 pb-8">
-				<a href={`${base}/`} class="text-2xl font-bold tracking-tighter hover:text-cobalt transition-colors uppercase">
-					FAILSAFE
-				</a>
-				<div class="space-x-8 text-sm font-medium">
-					<a href={`${base}/`} class="hover:text-cobalt transition-colors">Blog</a>
-					<a href={`${base}/about`} class="hover:text-cobalt transition-colors">À propos</a>
+			<nav class="flex justify-between items-baseline border-b border-border-main pb-8">
+				<div class="flex items-baseline gap-8">
+					<a href={`${base}/${lang}/`} class="text-2xl font-bold tracking-tighter hover:text-cobalt transition-colors uppercase">
+						FAILSAFE
+					</a>
+					<div class="hidden md:flex space-x-8 text-sm font-medium">
+						<a href={`${base}/${lang}/`} class="hover:text-cobalt transition-colors">{t('nav.blog')}</a>
+						<a href={`${base}/${lang}/about`} class="hover:text-cobalt transition-colors">{t('nav.about')}</a>
+					</div>
+				</div>
+				
+				<div class="flex items-center gap-6 text-xs font-bold uppercase tracking-widest">
+					<div class="flex items-center gap-4">
+						<a href={`${base}/fr/`} class={lang === 'fr' ? 'text-cobalt' : 'text-muted hover:text-noir'}>FR</a>
+						<span class="text-border-main">|</span>
+						<a href={`${base}/en/`} class={lang === 'en' ? 'text-cobalt' : 'text-muted hover:text-noir'}>EN</a>
+					</div>
+					<ThemeToggle />
 				</div>
 			</nav>
 		</header>
@@ -34,14 +52,24 @@ const base = import.meta.env.BASE_URL;
 			<slot />
 		</main>
 
-		<footer class="max-w-screen-md mx-auto w-full px-6 py-12 border-t border-slate-200 text-sm text-slate-500">
+		<footer class="max-w-screen-md mx-auto w-full px-6 py-12 border-t border-border-main text-sm text-muted">
 			<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-				<p>© {new Date().getFullYear()} FAILSAFE — Par Mehdi-elke</p>
+				<p>© {new Date().getFullYear()} FAILSAFE — {t('footer.by')} Mehdi-elke</p>
 				<div class="flex space-x-4">
 					<a href="https://github.com/mehdi-elke" class="hover:text-cobalt transition-colors">GitHub</a>
 					<a href={`${base}/rss.xml`} class="hover:text-cobalt transition-colors">RSS</a>
 				</div>
 			</div>
 		</footer>
+
+		<script>
+			const progressBar = document.getElementById('progress-bar');
+			window.addEventListener('scroll', () => {
+				const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+				const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+				const scrolled = (winScroll / height) * 100;
+				if (progressBar) progressBar.style.width = scrolled + "%";
+			});
+		</script>
 	</body>
 </html>

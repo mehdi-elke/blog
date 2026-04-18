@@ -1,0 +1,94 @@
+---
+title: "RAGot et hallucination : votre chatbot passe devant le juge"
+pubDate: 2026-04-14
+description: "Évaluer la fidélité d'un système RAG à l'aide d'un juge LLM et de la démarche de falsifiabilité."
+image: "../../../assets/blog/better-call-saul-juge.png"
+tags: ["RAG", "LLM", "Fiabilité", "Evaluation"]
+---
+
+import Mermaid from '../../../components/Mermaid.astro';
+
+Vous avez passé des semaines à peaufiner votre système de **RAG (Retrieval-Augmented Generation)**. Il est rapide, il est beau, mais dès qu’on pousse un peu les échanges, il commence à raconter des "RAGots". Une date inventée par-ci, une réponse hors-sujet par-là...
+
+Le problème ? Évaluer une IA générative à la main est un travail de titan, coûteux et non reproductible. 
+
+Il est temps d'ouvrir le procès pour garantir la fiabilité de vos déploiements, nous allons nommer un magistrat d'un nouveau genre : **le LLM-as-a-Judge.**
+
+
+## Les 4 chefs d'accusation
+
+Dans un système RAG, on ne juge pas une réponse en bloc. On décompose  en quatre points précis pour savoir exactement qui, du moteur de recherche ou du rédacteur, a commis une faute.
+
+### 1. La fouille de dossier bâclée (Context Precision)
+
+Le moteur de recherche (Retriever) ramène-t-il les bons documents ? Si le juge trouve trop de "bruit" dans les pièces fournies, le verdict est sans appel : votre indexation est à revoir avant même de blâmer l'IA.
+
+### 2. Le vice de procédure (Context Recall)
+
+Avons-nous oublié des preuves cruciales ? Si l'information existe dans votre base mais n'arrive jamais sur le bureau du LLM, votre système souffre d'un manque de mémoire sélective.
+
+### 3. Le faux témoignage (Faithfulness / Groundedness)
+
+C’est l’hallucination pure. Le chatbot affirme des choses qui ne sont pas dans les documents. Il "invente" des preuves, comme par exemplele bot vous affirme que l'entreprise a été créée en 1990 alors que le document source dit clairement 1995. C’est le risque majeur en entreprise.
+
+### 4. L'outrage au tribunal (Answer Relevancy)
+
+Le chatbot ne répond pas vraiment à la question. Une réponse peut être techniquement vraie et fidèle aux sources, mais totalement hors-sujet. C'est le syndrome de l'expert qui parle pour ne rien dire.
+
+
+## Le Juge est-il impartial ?
+
+Confier l'évaluation d'un LLM à un autre LLM peut sembler contre-intuitif. Pourtant, la tâche de "juger" est cognitivement moins complexe que celle de "générer". Mais attention, comme tout magistrat, notre juge a ses propres biais :
+
+- **Le biais de verbosité :** Il a tendance à mieux noter les avocats qui parlent beaucoup, même s'ils font du remplissage.
+
+- **Le biais d'auto-préférence :** Un juge GPT-4 aura tendance à préférer le style d'écriture de ses semblables.
+
+- **Le biais de position :** Dans une comparaison entre deux réponses, celle présentée en premier est parfois injustement favorisée.
+
+
+### La parade : le "Chain of Thought"
+
+<Mermaid code={`
+    graph TD
+        subgraph "Production Pipeline (The Defendant)"
+            Q[User Query] --> R[Retriever]
+            R -->|Exhibits / Evidence| C[Contexts / Chunks]
+            C --> G[Generator / LLM]
+            G -->|Testimony| A[Final Answer]
+        end
+
+        subgraph "Evaluation System (The Judge)"
+            J{{"LLM-as-a-Judge<br/>(Prompt + CoT)"}}
+            
+            Q -.-> J
+            C -.-> J
+            A -.-> J
+            
+            J --> Verdict[Verdict: Scores + Reasoning]
+        end
+
+        style J fill:#0047AB,stroke:#333,stroke-width:2px,color:#fff
+        style Verdict fill:#FCFAF8,stroke:#0047AB,stroke-width:2px,color:#1A1A1A
+`} />
+
+<p class="text-center text-xs text-slate-400 -mt-10 mb-16 font-mono uppercase tracking-widest">Fig 1. Architecture du système d'évaluation LLM-as-a-Judge</p>
+
+Pour éviter une sentence arbitraire, on impose au juge de **justifier son raisonnement pas à pas** avant de rendre son verdict. En lui demandant d'expliquer pourquoi il met une note de 0.8, on peut réduire drastiquement les erreurs de jugement et on rend l'évaluation transparente.
+
+
+## Délibéré : ne changez pas de coupable trop vite
+
+Le premier réflexe face à une mauvaise réponse est de vouloir changer de modèle (passer de GPT-3.5 à GPT-4o, par exemple). Cela peut être une erreur de stratégie.
+
+Il m'est arrivé plusieurs fois que le coupable caché était le retrieval. Améliorer la qualité des "chunks", affiner les métadonnées ou ajouter une étape de _reranking_ est souvent plus efficace et moins coûteux que de gonfler la puissance du cerveau final.
+
+
+
+## Conclusion : préparez votre défense
+
+L'évaluation automatisée n'est plus une option, c'est une preuve de plus pour votre mise en production. Des frameworks comme **RAGAS** ou d'autres approches agnostiques permettent aujourd'hui de transformer vos intuitions en tableaux de bord rigoureux.
+
+Mais comment calibrer son juge ? Comment générer des questions de test sans y passer des nuits ? Et surtout, comment interpréter ces scores pour itérer efficacement sur votre code ?
+
+J'en parlerai une prochaine fois ... ou on peut en discuter directement autour d'un [repo de démo](https://github.com/baretto-labs/llm-as-a-judge)

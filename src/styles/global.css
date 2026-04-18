@@ -2,14 +2,32 @@
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --color-ivory: #FCFAF8;
-  --color-noir: #1A1A1A;
-  --color-cobalt: #0047AB;
+  --color-ivory: var(--bg);
+  --color-noir: var(--text);
+  --color-cobalt: var(--accent);
+  --color-border-main: var(--border);
+  --color-muted: var(--text-muted);
   --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --bg: #FCFAF8;
+  --text: #1A1A1A;
+  --accent: #0047AB;
+  --border: #e2e8f0;
+  --text-muted: #64748b;
+}
+
+:root.dark {
+  --bg: #1A1A1A;
+  --text: #FCFAF8;
+  --accent: #4D94FF;
+  --border: #334155;
+  --text-muted: #94a3b8;
 }
 
 @layer base {
   body {
-    @apply bg-ivory text-noir antialiased font-sans selection:bg-cobalt/20 selection:text-cobalt;
+    @apply bg-ivory text-noir antialiased font-sans selection:bg-cobalt/20 selection:text-cobalt transition-colors duration-300;
   }
 }

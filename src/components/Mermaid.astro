@@ -1,0 +1,59 @@
+---
+interface Props {
+  code: string;
+}
+
+const { code } = Astro.props;
+---
+<div class="mermaid-container not-prose my-16 p-8 bg-muted/5 border border-border-main rounded-sm">
+  <pre class="mermaid opacity-0 transition-opacity duration-300">
+    {code}
+  </pre>
+</div>
+
+<script>
+  import mermaid from 'mermaid';
+  
+  const isDark = document.documentElement.classList.contains('dark');
+
+  mermaid.initialize({
+    startOnLoad: false,
+    theme: isDark ? 'dark' : 'base',
+    themeVariables: {
+      primaryColor: isDark ? '#334155' : '#F1F5F9',
+      primaryTextColor: isDark ? '#FCFAF8' : '#1A1A1A',
+      primaryBorderColor: isDark ? '#475569' : '#CBD5E1',
+      lineColor: isDark ? '#94a3b8' : '#64748B',
+      secondaryColor: '#0047AB',
+      tertiaryColor: isDark ? '#1A1A1A' : '#FCFAF8',
+      fontFamily: 'Inter, system-ui, sans-serif',
+      fontSize: '14px'
+    }
+  });
+
+  const renderMermaid = async () => {
+    const containers = document.querySelectorAll('.mermaid');
+    if (containers.length > 0) {
+      await mermaid.run();
+      containers.forEach(c => c.classList.remove('opacity-0'));
+    }
+  };
+
+  document.addEventListener('astro:page-load', renderMermaid);
+  renderMermaid();
+
+  // Re-render on theme change if needed, though mermaid usually requires a full re-render
+  // For simplicity, we keep the initial render theme.
+</script>
+
+<style>
+  .mermaid-container :global(svg) {
+    max-width: 100% !important;
+    height: auto !important;
+    margin: 0 auto;
+  }
+  .mermaid {
+    font-family: monospace;
+    white-space: pre;
+  }
+</style>
