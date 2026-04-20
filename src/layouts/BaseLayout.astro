@@ -29,7 +29,7 @@ const t = useTranslations(lang);
 			<nav class="flex justify-between items-baseline border-b border-border-main pb-8">
 				<div class="flex items-baseline gap-8">
 					<a href={`${base}/${lang}/`} class="text-2xl font-bold tracking-tighter hover:text-cobalt transition-colors uppercase">
-						FAILSAFE
+						Open Drafts
 					</a>
 					<div class="hidden md:flex space-x-8 text-sm font-medium">
 						<a href={`${base}/${lang}/`} class="hover:text-cobalt transition-colors">{t('nav.blog')}</a>
@@ -54,9 +54,10 @@ const t = useTranslations(lang);
 
 		<footer class="max-w-screen-md mx-auto w-full px-6 py-12 border-t border-border-main text-sm text-muted">
 			<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-				<p>© {new Date().getFullYear()} FAILSAFE — {t('footer.by')} Mehdi-elke</p>
+				<p>© {new Date().getFullYear()} Open Drafts — {t('footer.by')} Mehdi Elketroussi</p>
 				<div class="flex space-x-4">
 					<a href="https://github.com/mehdi-elke" class="hover:text-cobalt transition-colors">GitHub</a>
+					<a href="https://www.linkedin.com/in/melketroussi/" class="hover:text-cobalt transition-colors">LinkedIn</a>
 					<a href={`${base}/rss.xml`} class="hover:text-cobalt transition-colors">RSS</a>
 				</div>
 			</div>

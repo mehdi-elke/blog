@@ -14,21 +14,23 @@ const t = useTranslations(lang as 'fr' | 'en');
 ---
 
 <BaseLayout title={t('nav.about')}>
-  <section class="prose prose-slate dark:prose-invert prose-lg max-w-none text-noir
-    prose-p:text-noir prose-strong:text-noir
+  <section class="prose prose-neutral prose-lg max-w-none text-[var(--text)]
     prose-a:text-cobalt prose-a:font-bold prose-a:no-underline hover:prose-a:underline">
     <h1>{t('nav.about')}</h1>
-    <p>
-      Je suis marié et papa de deux petites princesses qui occupent une grande partie de mon quotidien.
-    </p>
-    <p>
-      Quand tout le monde est à l’école ou au travail, je suis <a href="https://www.linkedin.com/in/melketroussi" target="_blank">développeur Java</a>. Passionné de sciences, j’ai découvert l’informatique un peu sur le tard, et je me suis rapidement passionné pour l’architecture logicielle, l’algorithmique et les performances applicatives.
-    </p>
-    <p>
-      J’aime transmettre et partager, ce qui m’a conduit à enseigner dans plusieurs écoles (EILCO de Calais et l'université Catholique de Lille), mais aussi à open sourcer un de mes side projects : <a href="https://plugins.jetbrains.com/plugin/26388-ollamassist" target="_blank">OllamAssist</a> qui me sert de laboratoire personnel (j'approche les 30K downloads avec une note de 4.2 sur 5 au moment où je poste ma proposition).
-    </p>
-    <p>
-      FAILSAFE est la continuité de cette démarche : un espace dédié à l'ingénierie de la fiabilité pour les systèmes IA et RAG.
-    </p>
+    {lang === 'fr' ? (
+      <>
+        <p>Je suis marié et papa de deux petites princesses qui occupent une grande partie de mon quotidien.</p>
+        <p>Quand tout le monde est à l’école ou au travail, je suis <a href="https://www.linkedin.com/in/melketroussi" target="_blank">développeur Java</a>. Passionné de sciences, j’ai découvert l’informatique un peu sur le tard, et je me suis rapidement passionné pour l’architecture logicielle, l’algorithmique et les performances applicatives.</p>
+        <p>J’aime transmettre et partager, ce qui m’a conduit à enseigner, mais aussi à open sourcer un de mes side projects : <a href="https://plugins.jetbrains.com/plugin/26388-ollamassist" target="_blank">OllamAssist</a> qui me sert de laboratoire personnel (j'approche les 30K downloads avec une note de 4.2 sur 5 au moment où je poste ma proposition).</p>
+        <p>Open Drafts est la continuité de cette démarche : un carnet d'exploration technique pour partager mes apprentissages et réflexions, du code à la science.</p>
+      </>
+    ) : (
+      <>
+        <p>I am married and a father of two little princesses who take up a large part of my daily life.</p>
+        <p>When everyone else is at school or work, I am a <a href="https://www.linkedin.com/in/melketroussi" target="_blank">Java developer</a>. Passionate about science, I discovered computer science a bit late, and I quickly became passionate about software architecture, algorithms, and application performance.</p>
+        <p>I love transmitting and sharing knowledge, which led me to teach in several schools, but also to open source one of my side projects: <a href="https://plugins.jetbrains.com/plugin/26388-ollamassist" target="_blank">OllamAssist</a>, which serves as my personal laboratory (I'm approaching 30K downloads with a 4.2/5 rating at the time of posting).</p>
+        <p>Open Drafts is the continuation of this journey: a technical exploration journal to share my learnings and thoughts, from code to science.</p>
+      </>
+    )}
   </section>
 </BaseLayout>

@@ -28,7 +28,7 @@ function formatDate(date: Date) {
 }
 
 function getReadingTime(content: string) {
-	const wordsPerMinute = 180;
+	const wordsPerMinute = 250;
 	const numberOfWords = content.split(/\s/g).length;
 	return Math.ceil(numberOfWords / wordsPerMinute);
 }
@@ -81,12 +81,10 @@ const image = entry.data.image;
 			</div>
 		</header>
 
-		<div class="prose prose-slate dark:prose-invert prose-lg max-w-none text-noir
-			prose-headings:tracking-tighter prose-headings:uppercase prose-headings:font-extrabold prose-headings:text-noir
-			prose-p:text-noir
-			prose-strong:text-noir
+		<div class="prose prose-neutral prose-lg max-w-none text-[var(--text)]
+			prose-headings:tracking-tighter prose-headings:uppercase prose-headings:font-extrabold
 			prose-h2:border-b prose-h2:border-border-main prose-h2:pb-2 prose-h2:mt-16
-			prose-blockquote:border-l-cobalt prose-blockquote:bg-muted/5 prose-blockquote:not-italic prose-blockquote:font-medium prose-blockquote:text-noir
+			prose-blockquote:border-l-cobalt prose-blockquote:bg-muted/5 prose-blockquote:not-italic prose-blockquote:font-medium
 			prose-pre:rounded-none prose-pre:border prose-pre:border-border-main
 			prose-a:text-cobalt prose-a:font-bold prose-a:no-underline hover:prose-a:underline">
 			<Content />

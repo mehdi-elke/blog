@@ -7,6 +7,11 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://mehdi-elke.github.io',
   base: '/blog',
+  markdown: {
+    shikiConfig: {
+      theme: 'github-dark',
+    },
+  },
   i18n: {
     defaultLocale: 'fr',
     locales: ['fr', 'en'],
