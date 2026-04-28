@@ -1,0 +1,103 @@
+---
+title: "From Shy Kid to Instructor: My Method for Building a Course"
+pubDate: 2026-04-28
+description: "How I try to structure my courses."
+image: "../../../assets/blog/de-timide-a-intervenant/fac.png"
+tags: ["course", "pedagogy", "doc-as-code", "instructor"]
+---
+
+import { Image } from 'astro:assets';
+import Mermaid from '../../../components/Mermaid.astro';
+import mindmap from '../../../assets/blog/de-timide-a-intervenant/mindmap.png';
+import marpapp from '../../../assets/blog/de-timide-a-intervenant/marpapp.png';
+import spring from '../../../assets/blog/de-timide-a-intervenant/spring.png';
+import kafka from '../../../assets/blog/de-timide-a-intervenant/kafka.png';
+import feedback from '../../../assets/blog/de-timide-a-intervenant/feedback.png';
+
+Since I was a child, I have always been very shy. I've always found it difficult to express myself in front of strangers, and the professional world didn't help much at first.
+
+Yet, a few years ago, when the opportunity to teach as a guest lecturer arose, I jumped at the chance to step out of my comfort zone.
+
+Here, I’m sharing my method for creating a training course.
+
+*Disclaimer: I am not a pedagogical expert, but a tech enthusiast who loves learning and sharing.*
+
+## The Objective Above All
+
+Everything starts with a subject and an objective for a specific audience: learning the basics of Java for students, or developing production-ready APIs for junior developers.
+
+From there, I extract the knowledge (the theory) and the skills (the know-how).
+
+Knowledge is the recipe; skill is the cooked dish.
+
+| Learning Object | Knowledge (Theory) | Skill (Practice) |
+| :--- | :--- | :--- |
+| **Arrays** | Knowing that an array has a fixed size and starts at index 0. | Successfully reversing the elements of an array without creating a new one. |
+| **Inheritance** | Explaining the `extends` keyword and the "is a" relationship. | Creating a consistent class hierarchy. |
+
+## Structure and Evaluation
+
+I use a mindmap to throw out my ideas without constraints, then I categorize them by level (beginner, intermediate, advanced). At this stage, I already define the evaluation criteria: how do I validate that the material is acquired?
+
+<Image src={mindmap} alt="My course structure mindmap" class="my-8 border border-border-main" />
+
+- **Knowledge:** a direct question.
+- **Skill:** a lab exercise (TP).
+
+## The "Doc-as-code" Approach
+
+For my materials, I use Marp (and soon Asciidoctor). I write in Markdown, and the tool generates HTML or PDF.
+
+<Image src={marpapp} alt="Marp interface for slides" class="my-8 border border-border-main" />
+
+Why?
+- History tracking on Git.
+- Focusing on content rather than form during feedback.
+- Using AI to help me correct or generate the structure.
+
+Warning: You must remain the thinking head. You do the thinking, the AI does the execution.
+
+## The "Fil Rouge" (Capstone) Project
+
+To stay practical, I rely on a project that progresses alongside the theory. For Spring Boot, for example, this allows me to offer "forks" based on the students' levels: the fastest can add Kafka or an AI, while others consolidate the basics.
+
+<div class="grid grid-cols-2 gap-4 my-8">
+  <Image src={spring} alt="Spring Boot Logo" class="border border-border-main" />
+  <Image src={kafka} alt="Apache Kafka Logo" class="border border-border-main" />
+</div>
+
+My goal: to stick to reality. I provide my assignments in the form of **User Stories** and introduce concepts of observability or testing, which are essential in the industry.
+
+## The Feedback Loop (Even When It Hurts)
+
+One last element that seems important to me is the feedback loop. In 6 and a half years of teaching, I've been lucky enough to collect a vast majority of maximum scores (10/10). It's rewarding, but that's not what makes you progress the most.
+
+<Image src={feedback} alt="Student feedback contrast" class="my-8 border border-border-main" />
+
+Paradoxically, it's the one and only '0' I ever received that left the biggest mark on me. I never found out why, and it was a real lesson: learning to filter through feedback.
+
+- **Organization:** (rooms, schedules) I can't do anything about it.
+- **Materials:** I lighten them up if I'm told I "read too much" from my slides.
+- **Pedagogy:** this is where I progress the most.
+
+## Teaching in the Age of AI
+
+Today, it is impossible to ignore ChatGPT, Gemini, or Claude. To be certain that concepts are understood, I now prefer paper questionnaires for knowledge—a 20 or 30-minute quiz makes it much easier to verify that the knowledge is actually there.
+And for the practical part, in my opinion, nothing beats discussions and presentations.
+
+## How to Get Started?
+
+If you're tempted by the adventure, don't stay in your corner. The hardest part is often finding the first door in.
+
+- **Networking:** Talk about it on LinkedIn or to your former professors. Schools are constantly looking for expert profiles for their specializations.
+- **Contact Pedagogical Managers:** Don't hesitate to send your CV directly to schools in your area. They are often in a rush to find instructors for specific technologies (Cloud, AI, DevOps).
+- **Platforms:** Solutions like [Tenors](https://tenors.fr) exist to centralize teaching offers and facilitate contact with establishments.
+
+## Conclusion
+
+Teaching forces me to stay up to date and to dig deeper into subjects thanks to the students' insightful questions. It's also a chance to pass on our industry's best practices to future colleagues.
+
+If I had one piece of advice: **try it at least once, you'll see how much you can get out of it!**
+
+---
+*Translated by Gemini.*

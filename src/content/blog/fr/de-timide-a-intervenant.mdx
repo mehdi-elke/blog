@@ -1,0 +1,104 @@
+---
+title: "De grand timide à intervenant : ma méthode pour construire un cours"
+pubDate: 2026-04-28
+description: "Comment j'essaie de structurer mes cours."
+image: "../../../assets/blog/de-timide-a-intervenant/fac.png"
+tags: ["cours", "pédagogie", "doc-as-code", "intervenant"]
+---
+
+import { Image } from 'astro:assets';
+import Mermaid from '../../../components/Mermaid.astro';
+import mindmap from '../../../assets/blog/de-timide-a-intervenant/mindmap.png';
+import marpapp from '../../../assets/blog/de-timide-a-intervenant/marpapp.png';
+import spring from '../../../assets/blog/de-timide-a-intervenant/spring.png';
+import kafka from '../../../assets/blog/de-timide-a-intervenant/kafka.png';
+import feedback from '../../../assets/blog/de-timide-a-intervenant/feedback.png';
+
+Depuis enfant, je suis un grand timide. J'ai toujours eu du mal à m'exprimer devant des inconnus et le monde professionnel n'a rien arrangé au départ. 
+
+Pourtant, il y a quelques années, quand l'opportunité de donner des cours en tant que vacataire s'est présentée, j'ai sauté sur l'occasion pour sortir de ma zone de confort.
+
+Je vous partage ici ma méthode pour réaliser une formation. 
+
+*Disclaimer : je ne suis pas expert pédagogique, mais un tech qui aime apprendre et partager.*
+
+## L'objectif avant tout
+
+Tout commence par un sujet et un objectif pour une cible précise : apprendre les bases de Java pour des étudiants ou développer des API production-ready pour des dev débutants.
+
+À partir de là, j'extrais les connaissances (le savoir) et les compétences (le savoir-faire).
+
+La connaissance est la recette de cuisine ; la compétence est le plat cuisiné.
+
+| Objet pédagogique | Connaissance (Théorie) | Compétence (Pratique) |
+| :--- | :--- | :--- |
+| **Les Tableaux** | Savoir qu'un tableau a une taille fixe et commence à l'index 0. | Réussir à inverser les éléments d'un tableau sans créer de nouveau tableau. |
+| **L'Héritage** | Expliquer le mot-clé `extends` et la relation "est un". | Créer une hiérarchie de classes cohérente. |
+
+## La structure et l'évaluation
+
+J'utilise une mindmap pour jeter mes idées sans contrainte, puis je catégorise par niveau (débutant, intermédiaire, expérimenté). Dès ce stade, je définis le critère d'évaluation : comment valider que c'est acquis ?
+
+<Image src={mindmap} alt="Ma mindmap de structure de cours" class="my-8 border border-border-main" />
+
+- Connaissance : une question directe.
+- Compétence : un exercice en TP.
+
+## L'approche "Doc-as-code"
+
+Pour mes supports, j'utilise Marp (et bientôt Asciidoctor). J'écris en Markdown, et l'outil génère le HTML ou le PDF.
+
+<Image src={marpapp} alt="Interface de Marp pour les slides" class="my-8 border border-border-main" />
+
+Pourquoi ?
+- Historisation sur Git.
+- Focus sur le fond plutôt que la forme lors des feedbacks.
+- Utilisation de l'IA pour m'aider à corriger ou générer la structure.
+
+Attention : Vous devez rester la tête pensante. Vous réfléchissez, l'IA exécute.
+
+## Le projet "Fil Rouge"
+
+Pour rester concret, je mise sur un projet qui progresse avec la théorie. Sur Spring Boot par exemple, cela permet de proposer des "forks" selon le niveau : les plus rapides peuvent ajouter Kafka ou une IA, pendant que les autres consolident les bases.
+
+<div class="grid grid-cols-2 gap-4 my-8">
+  <Image src={spring} alt="Logo Spring Boot" class="border border-border-main" />
+  <Image src={kafka} alt="Logo Apache Kafka" class="border border-border-main" />
+</div>
+
+Mon but : coller à la réalité. Je donne mes énoncés sous forme d'User Stories et j'introduis des notions d'observabilité ou de tests, indispensables en entreprise.
+
+## La boucle de feedback (même quand ça fait mal)
+
+Un dernier élément qui me semble important, c'est la boucle de feedback. En 6 ans et demi d'interventions, j'ai eu la chance de récolter une grande majorité de notes maximales (10/10). C'est gratifiant, mais ce n'est pas ce qui fait le plus progresser.
+
+<Image src={feedback} alt="Contraste des feedbacks étudiants" class="my-8 border border-border-main" />
+
+Paradoxalement, c'est le seul et unique '0' que j'ai reçu qui m'a le plus marqué. Je n'ai jamais su pourquoi, et cela a été une vraie leçon : apprendre à faire le tri dans les retours.
+
+- **L'organisation :** (salles, horaires) je n'y peux rien.
+- **Les supports :** je les allège si on me dit que je "lis trop" mes slides.
+- **La pédagogie :** c'est là que je progresse le plus.
+
+## Enseigner à l'heure de l'IA
+
+Aujourd'hui, il est impossible d'ignorer ChatGPT, Gemini ou Claude. 
+C'est pour ça que je demande aux apprenants d'échanger avec l'IA pour explorer des concepts ou débloquer des points techniques. L'objectif n'est pas de récupérer une solution "clé en main", mais d'utiliser l'IA pour obtenir des explications complémentaires ou tester des hypothèses de code. 
+C'est un mode "apprentissage" où l'outil sert de tuteur disponible 24h/24.
+
+Pour l'évaluation, je souhaite être certain que les notions sont comprises, c'est pour c'est pour ça que je privilégie désormais les questionnaires papiers pour les connaissances, un qcm de 20 ou 30 minutes permet plus facilement de vérifier que les connaissances sont bien là.
+Et pour la partie pratique, rien ne vaut selon moi les discussions/présentations .
+
+## Comment franchir le pas ?
+
+Si l'aventure vous tente, ne restez pas dans votre coin. Le plus dur est souvent de trouver la première porte d'entrée. 
+
+- **Le réseau :** Parlez-en sur LinkedIn ou à vos anciens professeurs. Les écoles cherchent constamment des profils experts pour leurs spécialisations.
+- **Contacter les responsables pédagogiques :** N'hésitez pas à envoyer votre CV directement aux écoles de votre région. Ils sont souvent en flux tendu pour trouver des intervenants sur des technos spécifiques (Cloud, IA, Devops).
+- **Les plateformes :** Il existe des solutions comme [Tenors](https://tenors.fr) qui centralisent les offres de vacations et facilitent la mise en relation avec les établissements.
+
+## Conclusion
+
+Donner des cours me force à rester à jour et à creuser des sujets grâce aux questions pertinentes des étudiants. C'est aussi une chance de transmettre les bonnes pratiques de notre industrie à de futurs collègues.
+
+Si j'avais un conseil : **essayez au moins une fois, vous verrez tout ce qu'on peut en tirer !**
