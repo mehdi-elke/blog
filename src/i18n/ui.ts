@@ -12,7 +12,7 @@ export const ui = {
 		'home.title': 'Open Drafts.',
 		'home.subtitle': 'Explorer, partager, découvrir.',
 		'home.desc':
-			"Un carnet d'exploration technique pour partager mes apprentissages et réflexions, du code à la science.",
+			"Un carnet d'exploration technique pour partager mes apprentissages.",
 		'home.recent': 'Articles récents',
 		'home.none': 'Aucun article publié pour le moment.',
 		'post.readingTime': 'min de lecture',
