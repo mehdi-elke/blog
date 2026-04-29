@@ -10,11 +10,11 @@ interface Props {
 	image?: string;
 }
 
-const { title, description = "Ingénierie de la fiabilité IA & RAG.", image } = Astro.props;
-const base = import.meta.env.BASE_URL;
-
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+const { title, description = t('site.description'), image } = Astro.props;
+const base = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
@@ -22,26 +22,55 @@ const t = useTranslations(lang);
 	<head>
 		<BaseHead title={title} description={description} image={image} />
 	</head>
-	<body class="bg-ivory text-noir antialiased font-sans flex flex-col min-h-screen">
-		<div id="progress-bar" class="fixed top-0 left-0 h-1 bg-cobalt z-50 transition-all duration-150 w-0"></div>
-		
+	<body
+		class="bg-ivory text-noir antialiased font-sans flex flex-col min-h-screen"
+	>
+		<div
+			id="progress-bar"
+			class="fixed top-0 left-0 h-1 bg-cobalt z-50 transition-all duration-150 w-0"
+		>
+		</div>
+
 		<header class="max-w-screen-md mx-auto w-full px-6 py-12">
-			<nav class="flex justify-between items-baseline border-b border-border-main pb-8">
+			<nav
+				class="flex justify-between items-baseline border-b border-border-main pb-8"
+			>
 				<div class="flex items-baseline gap-8">
-					<a href={`${base}/${lang}/`} class="text-2xl font-bold tracking-tighter hover:text-cobalt transition-colors uppercase">
+					<a
+						href={`${base}/${lang}/`}
+						class="text-2xl font-bold tracking-tighter hover:text-cobalt transition-colors uppercase"
+					>
 						Open Drafts
 					</a>
 					<div class="hidden md:flex space-x-8 text-sm font-medium">
-						<a href={`${base}/${lang}/`} class="hover:text-cobalt transition-colors">{t('nav.blog')}</a>
-						<a href={`${base}/${lang}/about`} class="hover:text-cobalt transition-colors">{t('nav.about')}</a>
+						<a
+							href={`${base}/${lang}/`}
+							class="hover:text-cobalt transition-colors">{t('nav.blog')}</a
+						>
+						<a
+							href={`${base}/${lang}/about`}
+							class="hover:text-cobalt transition-colors">{t('nav.about')}</a
+						>
 					</div>
 				</div>
-				
-				<div class="flex items-center gap-6 text-xs font-bold uppercase tracking-widest">
+
+				<div
+					class="flex items-center gap-6 text-xs font-bold uppercase tracking-widest"
+				>
 					<div class="flex items-center gap-4">
-						<a href={`${base}/fr/`} class={lang === 'fr' ? 'text-cobalt' : 'text-muted hover:text-noir'}>FR</a>
+						<a
+							href={`${base}/fr/`}
+							class={lang === 'fr'
+								? 'text-cobalt'
+								: 'text-muted hover:text-noir'}>FR</a
+						>
 						<span class="text-border-main">|</span>
-						<a href={`${base}/en/`} class={lang === 'en' ? 'text-cobalt' : 'text-muted hover:text-noir'}>EN</a>
+						<a
+							href={`${base}/en/`}
+							class={lang === 'en'
+								? 'text-cobalt'
+								: 'text-muted hover:text-noir'}>EN</a
+						>
 					</div>
 					<ThemeToggle />
 				</div>
@@ -52,13 +81,28 @@ const t = useTranslations(lang);
 			<slot />
 		</main>
 
-		<footer class="max-w-screen-md mx-auto w-full px-6 py-12 border-t border-border-main text-sm text-muted">
-			<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-				<p>© {new Date().getFullYear()} Open Drafts — {t('footer.by')} Mehdi Elketroussi</p>
+		<footer
+			class="max-w-screen-md mx-auto w-full px-6 py-12 border-t border-border-main text-sm text-muted"
+		>
+			<div
+				class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4"
+			>
+				<p>
+					© {new Date().getFullYear()} Open Drafts — {t('footer.by')} Mehdi Elketroussi
+				</p>
 				<div class="flex space-x-4">
-					<a href="https://github.com/mehdi-elke" class="hover:text-cobalt transition-colors">GitHub</a>
-					<a href="https://www.linkedin.com/in/melketroussi/" class="hover:text-cobalt transition-colors">LinkedIn</a>
-					<a href={`${base}/rss.xml`} class="hover:text-cobalt transition-colors">RSS</a>
+					<a
+						href="https://github.com/mehdi-elke"
+						class="hover:text-cobalt transition-colors">GitHub</a
+					>
+					<a
+						href="https://www.linkedin.com/in/melketroussi/"
+						class="hover:text-cobalt transition-colors">LinkedIn</a
+					>
+					<a
+						href={`${base}/rss.xml`}
+						class="hover:text-cobalt transition-colors">RSS</a
+					>
 				</div>
 			</div>
 		</footer>
@@ -66,10 +110,13 @@ const t = useTranslations(lang);
 		<script>
 			const progressBar = document.getElementById('progress-bar');
 			window.addEventListener('scroll', () => {
-				const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-				const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+				const winScroll =
+					document.body.scrollTop || document.documentElement.scrollTop;
+				const height =
+					document.documentElement.scrollHeight -
+					document.documentElement.clientHeight;
 				const scrolled = (winScroll / height) * 100;
-				if (progressBar) progressBar.style.width = scrolled + "%";
+				if (progressBar) progressBar.style.width = scrolled + '%';
 			});
 		</script>
 	</body>
