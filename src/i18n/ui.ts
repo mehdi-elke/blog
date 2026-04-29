@@ -27,7 +27,7 @@ export const ui = {
 		'home.title': 'Open Drafts.',
 		'home.subtitle': 'Explore, share, discover.',
 		'home.desc':
-			'A technical exploration journal to share my learnings and thoughts, from code to science.',
+			'A technical exploration journal to share my learnings and thoughts.',
 		'home.recent': 'Recent Posts',
 		'home.none': 'No posts published yet.',
 		'post.readingTime': 'min read',
