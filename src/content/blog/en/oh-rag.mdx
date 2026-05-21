@@ -1,0 +1,95 @@
+---
+title: "O RAG, O Despair! The Tragedy of Local Data"
+pubDate: 2026-05-21
+description: "Navigating the pitfalls of local RAG and the context shift drama."
+image: "../../../assets/blog/oh-rag/image.png"
+tags: ["RAG", "local", "OllamAssist", "jetbrains"]
+---
+
+import Mermaid from '../../../components/Mermaid.astro';
+
+I remember it like it was yesterday: a GitHub issue reporting that my agent's answers weren't working. Resources that no longer existed were being used to generate responses, old versions were being favored, or even new classes weren't being found. A few screenshots shoved the reality right in my face... *O RAG, O despair, O enemy old age!*
+
+RAG ages poorly and corrupts OllamAssist's context window in less than one act. Not exactly the best behavior, but it felt like something else was going on... but what?
+
+## Vector RAG: A Library of Scripts
+
+RAG (Retrieval-Augmented Generation) allows us to fetch information that isn't directly stored within the model. Here, I'm talking about **Vector RAG**: using a vector database to store information and retrieve the "semantically closest" data to help the LLM answer a query.
+
+<Mermaid code={`
+graph LR
+    Doc[Documents] --> Embed[Embedding Model]
+    Embed --> DB[(Vector DB)]
+    Query[Question] --> Embed
+    DB -->|Similarity Search| Context[Relevant Context]
+    Context --> LLM[LLM Generation]
+    Query --> LLM
+    LLM --> Answer[Response]
+`} />
+<p class="text-center text-xs text-muted-dynamic -mt-10 mb-10 font-mono uppercase tracking-widest">Fig 1. Classic Vector RAG Workflow</p>
+
+But before we go any further, I should lay down some groundwork on how LLMs actually "know" things.
+To put it simply, an LLM predicts the next character or word based on probabilities. All this knowledge is acquired by training the model on data—currently, the most common LLMs are trained on pretty much everything the internet contains. That's a lot of data.
+
+Because of this, an LLM can answer generic questions like "What is the capital of France?" or "How does Redis work?" without any trouble. But how do we get an LLM to answer questions about company data or other private sources that weren't (hopefully) accessible during its training?
+
+There are several approaches. We could re-train a model with this new data (known as fine-tuning), but that's excessively heavy and ultimately not very efficient.
+The alternative is to provide the LLM with documents related to the question and ask it to use those specific documents to generate an answer.
+
+This second approach is the most common because it's cheaper and faster to implement. Traditionally, we index all relevant information into a vector database (ChromaDB, DuckDB...) and search for the semantically closest documents by calculating the smallest "distance" (usually using cosine similarity).
+
+As you can guess, while this approach is less costly, it still has a price: document indexing, "transforming" them into vectors, and performing the retrieval based on the question.
+
+## The Drama of Context Shift: A Script Gathering Dust
+
+The big problem with RAG is the **context shift**. Data indexed in the database can slowly drift out of sync with the original source, leading to data corruption that impacts response quality.
+
+<Mermaid code={`
+sequenceDiagram
+    participant Code as Code (Ground Truth)
+    participant DB as Vector DB (Cache)
+    participant LLM as LLM
+    
+    Code->>DB: Initial Indexing (v1)
+    Note over Code: Developer modifies code (v2)
+    Note over DB: Index stays at v1 (Stale Cache)
+    User->>LLM: Asks a question about v2
+    DB-->>LLM: Sends context v1
+    LLM-->>User: Outdated answer (Disaster!)
+`} />
+<p class="text-center text-xs text-muted-dynamic -mt-10 mb-10 font-mono uppercase tracking-widest">Fig 2. The Tragedy of Desynchronization (Context Shift)</p>
+
+Basically, it's the classic drama of desynchronization, often called a **Stale Cache** problem. In the real life of a project, your code and docs are constantly moving behind the scenes: lines are cut (dead code), a scene is rewritten (a method), or new characters are added (classes). The problem is that your vector database hasn't received the new script. It remains frozen in the past, ready to recite the lines from the day it was first indexed.
+
+That's where the tragedy unfolds. When a user asks a question, your search engine plays the part of a faulty prompter, feeding the LLM old, expired lines just because they are "semantically close." The LLM, blindly trusting the lines it's given, takes the stage and delivers a performance based on a past that no longer exists. Curtain. This fatal gap between the play actually running in your code and the old script stuck in your database is what we call the *context shift*. And it’s exactly how OllamAssist ends up sabotaging its own performance in less than one act.
+
+## Vectorless RAG: No Script, No Problem
+
+A possible solution for OllamAssist is **Vectorless RAG**: searching directly through documents without indexing the data. No projection, no shift.
+
+<Mermaid code={`
+flowchart LR
+    IDE[(IntelliJ API)]
+    User[Question] --> Search[Keyword / AST Search]
+    Search <--> IDE
+    IDE --> Context[Live Code]
+    Context --> LLM[LLM]
+    User --> LLM
+    LLM --> Result[Always Fresh Response]
+    
+    style IDE fill:#0047AB,color:#fff
+    style Context fill:#155724,color:#fff
+`} />
+<p class="text-center text-xs text-muted-dynamic -mt-10 mb-10 font-mono uppercase tracking-widest">Fig 3. The Vectorless Approach: Direct Connection to Source</p>
+
+Naturally, my first reaction was to try and patch the script in real-time. I hooked up a *listener* to the workspace to watch for every change: a modified, deleted, or added file—and boom, reindex on the fly. Except in practice, the prompter spent all its time rewriting the play with every keystroke, causing constant reindexing. To calm things down, I had to add a *debouncer*. It worked... until the fateful moment of a Git branch switch. Running `git checkout` is the equivalent of rewriting three acts in a fraction of a second: the *listener* panics, the index gets completely tangled, and you're back to a *context shift* disaster.
+
+To keep the play from turning into a total fiasco, I had to radically change strategy. Exit the vector database and its impossible background synchronization. The real solution for OllamAssist was to plug directly into the live script: the IntelliJ API.
+
+Instead of chasing files, the agent queries the IDE in real-time. As soon as a question is asked, we scan for keywords, classes, and methods directly in the living code. We apply a little custom re-ranking on top to surface the most relevant structures and inject 100% fresh context into the LLM. With these changes, we can soon do away with the data indexing phase entirely, making OllamAssist leaner and less resource-hungry.
+
+Of course, other solutions exist: building a RAG graph, maintaining strict sync, or offloading the cost to a remote server. But that’s not what I have in mind for OllamAssist. I'm looking for a solution that works locally, which requires a fair amount of tuning.
+
+This is why I rely on an [LLM-as-a-Judge](/en/blog/ragot-et-hallucination) approach: it allows me to precisely measure my progress and understand the impacts in real-time. The curtain hasn't fallen on OllamAssist yet, and the next acts promise to be full of twists.
+
+By the way, if you want to keep following this story, you can find the next acts here: https://github.com/baretto-labs/OllamAssist
